@@ -49,6 +49,10 @@ class Entity(_BaseAttribs):
         _floor_idx = None
         _cell = None
         
+        def __str__(self):
+            # mainly for saving location data
+            return "{0}, {1}, {2}, {3}".format(self._loc.name, self._floor_idx, self._cell._x, self._cell._y)
+        
         @property
         def name(self):
             """The name of this entity's location."""
