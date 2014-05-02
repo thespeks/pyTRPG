@@ -57,3 +57,59 @@ class Main:
             self._running = True
             
             
+class Game:
+    def __init__(self):
+        self._saved =   False
+        self._savable = False
+        self._game = None
+        self._config = Config()
+    
+    def __get__(self):  return self._game
+    
+    def _get_savable(self): return self._is_savable
+    def _set_savable(self, savable): self._is_savable = bool(savable)
+    is_savable = property(_get_savable, _set_savable,
+        doc="A state which stores whether this game can be saved.")
+    
+    def _can_exit(self, dest):
+        if self._saved == False: return self.can_exit(dest))
+        return True
+    
+    def get_available_choices(self):
+        yield 'config'
+        if self.can_save: yield 'save'
+    
+    def can_save(self):
+        """Return True if this game can be currently saved."""
+        return (self._game is not None and self.is_savable)
+    
+    def new(self, reuse_config=True):
+        """Start a new game."""
+        if self._can_exit(dest='new'):  
+            self._game = self.on_new_game(reuse_config)
+    
+    def load(self):
+        """Load a saved game."""
+        self._can_exit(dest='load'): return self.on_load_game()
+            
+    def save(self):
+        """Save this game."""
+        if self.can_save(): return self.on_save_game()
+        pass
+        
+    def can_exit(self, dest):
+        """Override this to handle game exit parameters."""
+        # TODO Add more descriptive docstring
+        raise NotImplementedError
+        
+    # game events
+    def on_new_game(self, reuse_config):
+        raise NotImplementedError
+    
+    def on_load_game(self):
+        raise NotImplementedError
+    
+    def on_save_game(self):
+        raise NotImplementedError
+        
+        
