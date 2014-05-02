@@ -14,3 +14,46 @@
 #     along with this program. If not, see <http://www.gnu.org/licenses/>.     #
 #                                                                              #
 # ---------------------------------------------------------------------------- #
+
+
+main = None
+
+__all__ = 'main'
+
+def init_run(main=Main):
+    if main != None:  main = Main()
+
+
+class Main:
+    """The main class for TRPG."""
+    def __init__(self):
+        self._main_init
+        
+    def _main_init(self):
+        self._rs = _RS()
+        self._cur_game = None    
+        self._config = Config()
+    
+    @property
+    def game(self):
+        """The current game."""
+        return self._game
+        
+    @property
+    def global_config(self):
+        """
+        The global configuration.
+            (for game exclusive config see main.game.config)
+        """
+        return self._config
+    
+    class _RS:
+        """Run state handler for TRPG."""
+        def __init__(self):
+            self._running = False
+            self._run
+            
+        def _run(self):
+            self._running = True
+            
+            
