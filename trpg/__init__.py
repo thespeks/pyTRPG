@@ -112,4 +112,13 @@ class Game:
     def on_save_game(self):
         raise NotImplementedError
         
-        
+
+# from _bases import DictBase    
+class Config:
+    self._items = {}
+            
+    def reset(self):
+        """Override this to add a reset method."""
+        pass
+    
+    
