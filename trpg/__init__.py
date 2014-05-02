@@ -113,8 +113,8 @@ class Game:
         raise NotImplementedError
         
 
-# from _bases import DictBase    
-class Config:
+from trpg._bases import DictBase    
+class Config(DictBase):
     self._items = {}
             
     def reset(self):
