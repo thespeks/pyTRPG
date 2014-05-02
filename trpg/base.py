@@ -34,7 +34,7 @@ class _BaseAttribs:
 
 class Entity(_BaseAttribs):
     """Generic Entity class."""
-    _loc = EntityLocation()
+    _loc = EntityLoc()
     
     
     @property
