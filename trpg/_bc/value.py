@@ -20,6 +20,7 @@ class BaseValue:
     Single numeric storage primitive base class.
     Has only type conversion and comparison methods.
     """
+    def __get__(self):      return self._value
     
     def __str__(self):      return str(self._value)
     def __bool__(self):     return self._value != 0
@@ -81,10 +82,63 @@ class Value(BaseValue):
     def __imul__(self, x):  self._value = self.__mul__()
     
     
-# -- LoopValue --------------------------------------------------------------- #
-class _LoopValueBase(_ValueBase):
+# -- ClampedValue ------------------------------------------------------------ #
+class ClampedValue(_BaseValue):
+    __slots__ = '_value', '_min', '_max'
+    def __init__(self, level, min=0, max=100):
+        super().__init__(self, int(min), int(max))
+        self.__set__(level)
+                  
+    def __set__(self, n):   
+        self._value = self.clamped(n, self._min, self._max)
+                
+    def __getitem__(self, i):   return (self._value, self._min, self._max)[i]
     
-    def __get__(self): return self._val
+    def __add__(self, x):       return self.clamped(self._value + x)
+    __radd__ = __add__
+    def __iadd__(self, x):      self._value = self.clamped(self._value+x))
+     
+    def __sub__(self, x):       return self.clamped(self._value-x)
+    def __rsub__(self, x):      return self.clamped(x - self._value)
+    def __isub__(self, x):      self._value = self.clamped(self._value-x)
+        
+    def __mul__(self, x):       return self.clamped(self._value*x)
+    __rmul__ = __mul__
+    def __imul__(self, x):      self._value = self.clamped(self._value*x)
+    
+    def __truediv__(self, x):   return self.clamped(self._value / x)
+    __div__ = __truediv__
+    def __rtruediv__(self, x):  return self.clamped(x / self._value)
+    __rdiv__ = __rtruediv__
+    
+    def __idiv__(self, x):      self._value = self.clamped(self._value/x)
+    
+    def __floordiv__(self, x):  return self.clamped(self._vaule // x)
+    def __rfloordiv__(self, x): return self.clamped(self._value // x)
+    
+    def __mod__(self, x):       return self.clamped(self._value % x)
+    def __rmod__(self, x):      return self.clamped(x % self._value)
+    
+    def __divmod__(self, x):    return self.clamped(divmod(self._value, x))
+    def __rdivmod__(self, x):   return self.clamped(divmod(x, self._value))
+    
+    @property
+    def min(self):
+        return self._min
+    
+    @property
+    def max(self):
+        return self._max
+    
+    def clamped(self, x):
+        if x > self._max:   return self._max
+        elif x < self._min: return self._min
+        else:               return x
+        
+    
+# -- LoopValue --------------------------------------------------------------- #
+class _LoopValueBase(_BaseValue):
+    
     def __set__(self, x):
         if x == 'next': self.__iadd__(1)
         elif x == 'prev': self.__isub__(1)
@@ -128,8 +182,7 @@ Useful for anything that needs navagation methods like next and prev.
             self._container = container
             self._value = index
         else: raise Exception("Container must be iterable.")
-    
-    def __get__(self): return self._idx
+
     def __set__(self, x):
         if x == 'next': self.__iadd__(1)
         elif x == 'prev': self.__isub__(1)
