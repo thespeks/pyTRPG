@@ -36,6 +36,9 @@ class BaseChar:
         for i in self._items.keys():
             if isinstance(i, StatLevel): yield i
             
+            
+
+            
 
 from trpg.utils.math import clamp
 
