@@ -27,5 +27,13 @@ class _Base:
     def __eq__(self, x): return x == self.__get__()
     def __ne__(self, x): return x != self.__get__()
 
+
+class Type:
+    """Mixin class for anything with a '_type' attribute"""
+    def __get__(self):      return self._type
+    def __eq__(self, x):    return (self._type == x or self._type == x._type)
+    def __ne__(self, x):    return (self._type != x or self._type != x._type)   
+    
+
 class DictBase(_Base):
     _items = {}
