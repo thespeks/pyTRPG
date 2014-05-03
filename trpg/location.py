@@ -22,15 +22,16 @@ class _Location_Data:
 
 class Location:
     """Generic location class for text based RPGs."""
+    __slots__ = '_floors', '_name'
     def __init__(self, floors, location_name=""):
         if len(floors) >= 1:
             self._floors = floors
-            self._loc_name = location_name
+            self._name = location_name
         
     @property
     def location_name(self):
         """The name of this location."""
-        return self._loc_name
+        return self._name
         
     def floors(self):
         """Return floors for this location."""
