@@ -21,12 +21,20 @@ class _Base:
     _items = ()
     
     def __get__(self): return self._items
+    def __getitem__(self, i):   return self._items[i]
+    
+    def __len__(self):  return len(self.__get__())
     def __iter__(self): return iter(self.__get__())
     def __contains__(self): return x in self.__iter__()
     
     def __eq__(self, x): return x == self.__get__()
     def __ne__(self, x): return x != self.__get__()
 
+    # length comparison
+    def __gt__(self, x):    return self.__len__() > x
+    def __ge__(self, x):    return self.__len__() >= x
+    def __lt__(self, x):    return self.__len__() < x
+    def __le__(self, x):    return self.__len__() <= x
 
 class Type:
     """Mixin class for anything with a '_type' attribute"""
@@ -37,9 +45,9 @@ class Type:
 
 class DictBase(_Base):
     __slots__ = '_items'
-    def __init__(self, items):
-        self._items = {}
-        
+    def __init__(self, items={}):
+        self._items = items
+
 
 class ValueDict(DictBase):
     __slots__ = DictBase.__slots__
