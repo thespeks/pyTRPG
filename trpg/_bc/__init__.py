@@ -39,4 +39,51 @@ class DictBase(_Base):
     __slots__ = '_items'
     def __init__(self, items):
         self._items = {}
+        
 
+class ValueDict(DictBase):
+    __slots__ = DictBase.__slots__
+    
+    def __getitem__(self, i):
+        try: return self._items[i]
+        except: return 0    # non existing
+    
+    def is_eq(self, i, v):
+        try: return self._items[i] == v
+        except: return False
+        
+    def is_ne(self, i, v):
+        try: return self._items[i] != v
+        except: return False
+    
+    def is_lt(self, i, v):
+        try: return self._items[i] < v
+        except: return False
+        
+    def is_le(self, i, v):
+        try: return self._items[i] <= v
+        except: return False
+        
+    def is_gt(self, i, v):
+        try: return self._items[i] > v
+        except: return False
+        
+    def is_ge(self, i, v):
+        try: return self._items[i] >= v
+        except: return False
+        
+    def clamp_add(self, i, amt, min=0, max=100):
+        self._items[i] = clamped(self._items[i] + amt, min, max)
+        
+    def clamp_sub(self, i, amt, min=0, max=100):
+        self._items[i] = clamped(self._items[i] - amt, min, max)
+        
+    def clamp_mul(self, i, amt, min=0, max=100):
+        self._items[i] = clamped(self._items[i] * amt, min, max)
+        
+    def clamp_div(self, i, amt, min=0, max=100):
+        self._items[i] = clamped(self._items[i] // amt, min, max)
+        
+    def clamp_truediv(self, i, amt, min=0, max=100):
+        self._items[i] = clamped(self._items[i] / amt, min, max)
+        
