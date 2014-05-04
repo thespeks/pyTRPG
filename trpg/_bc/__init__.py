@@ -36,4 +36,7 @@ class Type:
     
 
 class DictBase(_Base):
-    _items = {}
+    __slots__ = '_items'
+    def __init__(self, items):
+        self._items = {}
+
