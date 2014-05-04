@@ -18,24 +18,31 @@
 """Base classes for trpg."""
 
 class _Base:
-    _items = ()
     
-    def __get__(self): return self._items
-    def __getitem__(self, i):   return self._items[i]
+    def __get__(self):          return ()
+    def __getitem__(self, i):   return self._get__()[i]
     
-    def __len__(self):  return len(self.__get__())
-    def __iter__(self): return iter(self.__get__())
-    def __contains__(self): return x in self.__iter__()
+    def __len__(self):          return len(self.__get__())
+    def __iter__(self):         return iter(self.__get__())
+    def __contains__(self):     return x in self.__iter__()
     
-    def __eq__(self, x): return x == self.__get__()
-    def __ne__(self, x): return x != self.__get__()
+    def __eq__(self, x):        return x == self.__get__()
+    def __ne__(self, x):        return x != self.__get__()
 
     # length comparison
     def __gt__(self, x):    return self.__len__() > x
     def __ge__(self, x):    return self.__len__() >= x
     def __lt__(self, x):    return self.__len__() < x
     def __le__(self, x):    return self.__len__() <= x
+    
 
+class NamedBase(_Base):
+
+    @property
+    def name(self):
+        return self._name
+    
+    
 class Type:
     """Mixin class for anything with a '_type' attribute"""
     def __get__(self):      return self._type
