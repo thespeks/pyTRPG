@@ -10,7 +10,7 @@ def get_new_blank_map(size_x, size_y, empty='.'):
         return tuple(x for i in range(size_y)
 
 def build_coords_dict(map_matrix, empty='.'):
-    
+    """Return a new dict of (x, y) coords mapped to non-empty chars."""
     d = {}
     for y in matrix:
           for i in y:
