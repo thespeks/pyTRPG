@@ -22,6 +22,7 @@ def get_new_blank_map(size_x, size_y, empty='.'):
     if (size_x and size_y) > 1:
         x = join([empty]*size_x)
         return tuple(x for i in range(size_y)
+    else: raise ValueError("Invalid size for map. Sizes must be > 1.")
 
 def build_coords_dict(map_matrix, empty='.'):
     """Return a new dict of (x, y) coords mapped to non-empty chars."""
