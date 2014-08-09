@@ -19,3 +19,6 @@ pyTRPG stands for python Text Role Playing Game
 pyTRPG is a developement framework for text based RPG games using python 3 or greater.
 
 for full licencing info see LICENCE
+
+**This project is far from completion and is probably not going to be** 
+**developed any further, at least not any time soon.**
